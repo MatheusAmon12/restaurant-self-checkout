@@ -2,6 +2,9 @@ import { notFound } from "next/navigation";
 
 import { getRestaurantsBySlug } from "@/data/get-restaurants-by-slug";
 
+import RestaurantCategories from "./components/categories";
+import RestaurantMenuHeader from "./components/restaurant-menu-header";
+
 interface RestaurantMenuPageProps {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ consumptionMethod: string }>;
@@ -23,11 +26,13 @@ const RestaurantMenuPage = async ({
     return notFound();
   }
 
+  if (!restaurant) return notFound();
+
   return (
-    <h1>
-      {slug}
-      {consumptionMethod}
-    </h1>
+    <div>
+      <RestaurantMenuHeader restaurant={restaurant} />
+      <RestaurantCategories restaurant={restaurant} />
+    </div>
   );
 };
 
