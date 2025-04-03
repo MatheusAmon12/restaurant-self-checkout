@@ -5,15 +5,16 @@ import React from "react";
 
 interface ProductsProps {
   products: Product[];
+  slug: Promise<{ slug: string }>;
 }
 
-const Products: React.FC<ProductsProps> = ({ products }) => {
+const Products: React.FC<ProductsProps> = ({ products, slug }) => {
   return (
     <div className="space-y-3 px-5 py-3">
       {products.map((product) => (
         <Link
           key={product.id}
-          href="#"
+          href={`/${slug}/menu/${product.id}`}
           className="flex items-center justify-between gap-10 border-b py-3"
         >
           <div>
