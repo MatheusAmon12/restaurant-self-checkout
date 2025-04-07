@@ -3,23 +3,36 @@ import React from "react";
 
 import { db } from "@/lib/prisma";
 
+import ProductDetails from "./components/product-details";
 import ProductPageHeader from "./components/product-page-header";
 
 interface ProductPageProps {
-  params: Promise<{ slug: string; productId: string }>;
+  params: Promise<{ productId: string, slug: string }>;
 }
 
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
-  const { slug, productId } = await params;
-  const product = await db.product.findUniqueOrThrow({
+  const { productId, slug } = await params;
+  const product = await db.product.findUnique({
     where: { id: productId },
+    include: {
+      restaurant: {
+        select: {
+          name: true,
+          avatarImageUrl: true,
+          slug: true,
+        },
+      },
+    },
   });
 
   if (!product) return notFound();
 
+  if (product.restaurant.slug.toUpperCase() !== slug.toUpperCase()) return notFound();
+
   return (
-    <div>
+    <div className="flex h-full flex-col">
       <ProductPageHeader product={product} />
+      <ProductDetails product={product} />
     </div>
   );
 };
