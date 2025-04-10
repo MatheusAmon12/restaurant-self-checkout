@@ -19,7 +19,7 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
-  const { isOpen, toggleCart } = useContext(CartContext);
+  const { toggleCart, addToCart } = useContext(CartContext);
   const [productQuantity, setProductQuantity] = useState<number>(1);
 
   const handleProductQuantityDecrement = () => {
@@ -32,6 +32,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
   };
 
   const handleAddProductToCartClick = () => {
+    addToCart({ ...product, quantity: productQuantity });
     toggleCart();
   };
 

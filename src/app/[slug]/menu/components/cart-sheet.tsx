@@ -13,8 +13,8 @@ import {
 import { CartContext } from "../contexts/cart";
 
 const CartSheet = () => {
-  const { isOpen, toggleCart } = useContext(CartContext);
-  
+  const { isOpen, toggleCart, products } = useContext(CartContext);
+
   return (
     <Sheet open={isOpen} onOpenChange={toggleCart}>
       <SheetContent>
@@ -22,6 +22,11 @@ const CartSheet = () => {
           <SheetTitle>Teste</SheetTitle>
           <SheetDescription>Teste</SheetDescription>
         </SheetHeader>
+        {products.map((product) => (
+          <h1 key={product.id}>
+            {product.id} + {product.quantity}
+          </h1>
+        ))}
       </SheetContent>
     </Sheet>
   );
