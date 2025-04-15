@@ -4,7 +4,7 @@ import { db } from "@/lib/prisma";
 
 import { removeCpfPontuations } from "../helpers/remove-cpf-pontuations";
 
-interface createOrderInput {
+export interface createOrderInput {
   customerName: string;
   customerCpf: string;
   products: Array<{

@@ -1,8 +1,9 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import { currencyFormat } from "@/app/helpers/currency-format";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Sheet,
@@ -13,11 +14,16 @@ import {
 
 import { CartContext } from "../contexts/cart";
 import CartProductItem from "./cart-item";
-import FinishOrderButton from "./finish-order-button";
+import FinishOrder from "./finish-order";
 
 const CartSheet = () => {
+  const [isFinishOrderOpen, setIsFinishOrderOpen] = useState(false);
   const { isOpen, toggleCart, products, totalPriceCalculate } =
     useContext(CartContext);
+
+  const handleFinishOrder = () => {
+    setIsFinishOrderOpen(!isFinishOrderOpen);
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={toggleCart}>
@@ -41,7 +47,13 @@ const CartSheet = () => {
               </p>
             </div>
           </Card>
-          <FinishOrderButton />
+          <Button className="w-full rounded-full" onClick={handleFinishOrder}>
+            Finalizar pedido
+          </Button>
+          <FinishOrder
+            open={isFinishOrderOpen}
+            onOpenChange={handleFinishOrder}
+          />
         </div>
       </SheetContent>
     </Sheet>

@@ -1,10 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ConsumptionMethod } from "@prisma/client";
 import { LoaderIcon } from "lucide-react";
-import { useParams, useSearchParams } from "next/navigation";
-import { useContext } from "react";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -19,42 +15,20 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { CartContext } from "../contexts/cart";
 import { cpfMask } from "../helpers/cpf-mask";
-import { useCreateOrder } from "../hooks/useCreateOrder";
-import { FinishOrderFormSchema, finishOrderFormSchema } from "../types/schemas";
+import { FinishOrderFormSchema } from "../types/schemas";
 
-const FinishOrderForm = () => {
-  const { slug } = useParams<{ slug: string }>();
-  const searchParams = useSearchParams();
-  const { products } = useContext(CartContext);
-  const { mutate, isPending } = useCreateOrder();
+interface FinishOrderFormProps {
+  form: ReturnType<typeof useForm<FinishOrderFormSchema>>;
+  handleFinishOrderFormSubmit: (data: FinishOrderFormSchema) => void;
+  isPending: boolean;
+}
 
-  const form = useForm<FinishOrderFormSchema>({
-    resolver: zodResolver(finishOrderFormSchema),
-    mode: "onSubmit",
-    reValidateMode: "onChange",
-    defaultValues: {
-      name: "",
-      cpf: "",
-    },
-    shouldUnregister: true,
-  });
-
-  const handleFinishOrderFormSubmit = (data: FinishOrderFormSchema) => {
-    const consumptionMethod = searchParams.get(
-      "consumptionMethod",
-    ) as ConsumptionMethod;
-
-    mutate({
-      customerCpf: data.cpf,
-      customerName: data.name,
-      consumptionMethod,
-      products,
-      slug,
-    });
-  };
-
+const FinishOrderForm: React.FC<FinishOrderFormProps> = ({
+  form,
+  handleFinishOrderFormSubmit,
+  isPending,
+}) => {
   return (
     <Form {...form}>
       <form
