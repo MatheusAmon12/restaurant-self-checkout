@@ -3,7 +3,6 @@
 import { useContext } from "react";
 
 import { currencyFormat } from "@/app/helpers/currency-format";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Sheet,
@@ -14,6 +13,7 @@ import {
 
 import { CartContext } from "../contexts/cart";
 import CartProductItem from "./cart-item";
+import FinishOrderButton from "./finish-order-button";
 
 const CartSheet = () => {
   const { isOpen, toggleCart, products, totalPriceCalculate } =
@@ -35,13 +35,13 @@ const CartSheet = () => {
           </div>
           <Card className="p-5">
             <div className="flex justify-between">
-              <p className="text-sm font-muted-foreground">Total</p>
+              <p className="font-muted-foreground text-sm">Total</p>
               <p className="text-sm font-semibold">
                 {currencyFormat(totalPriceCalculate())}
               </p>
             </div>
           </Card>
-          <Button className="w-full rounded-full">Finalizar pedido</Button>
+          <FinishOrderButton />
         </div>
       </SheetContent>
     </Sheet>
