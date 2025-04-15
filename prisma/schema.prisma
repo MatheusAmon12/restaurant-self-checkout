@@ -61,6 +61,8 @@ model Order {
   restaurantId      String
   consumptionMethod ConsumptionMethod
   orderProducts     OrderProduct[]
+  customerName      String
+  customerCpf       String
   createdAt         DateTime          @default(now())
   updateAt          DateTime          @updatedAt
 }

@@ -1,0 +1,1 @@
+export const removeCpfPontuations = (cpf: string) => cpf.replace(/[^\d]+/g, "");

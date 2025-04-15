@@ -1,6 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ConsumptionMethod } from "@prisma/client";
+import { LoaderIcon } from "lucide-react";
+import { useParams, useSearchParams } from "next/navigation";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -15,10 +19,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { CartContext } from "../contexts/cart";
 import { cpfMask } from "../helpers/cpf-mask";
+import { useCreateOrder } from "../hooks/useCreateOrder";
 import { FinishOrderFormSchema, finishOrderFormSchema } from "../types/schemas";
 
 const FinishOrderForm = () => {
+  const { slug } = useParams<{ slug: string }>();
+  const searchParams = useSearchParams();
+  const { products } = useContext(CartContext);
+  const { mutate, isPending } = useCreateOrder();
+
   const form = useForm<FinishOrderFormSchema>({
     resolver: zodResolver(finishOrderFormSchema),
     mode: "onSubmit",
@@ -31,7 +42,17 @@ const FinishOrderForm = () => {
   });
 
   const handleFinishOrderFormSubmit = (data: FinishOrderFormSchema) => {
-    console.log(data);
+    const consumptionMethod = searchParams.get(
+      "consumptionMethod",
+    ) as ConsumptionMethod;
+
+    mutate({
+      customerCpf: data.cpf,
+      customerName: data.name,
+      consumptionMethod,
+      products,
+      slug,
+    });
   };
 
   return (
@@ -89,12 +110,18 @@ const FinishOrderForm = () => {
           form="finish-order-form"
           type="submit"
           variant="destructive"
-          className="rounded-full w-full"
+          className="w-full rounded-full"
+          disabled={isPending}
         >
+          {isPending && <LoaderIcon className="animate-spin" />}
           Finalizar
         </Button>
         <DrawerClose asChild>
-          <Button variant="outline" className="rounded-full w-full">
+          <Button
+            variant="outline"
+            className="w-full rounded-full"
+            disabled={isPending}
+          >
             Cancelar
           </Button>
         </DrawerClose>
