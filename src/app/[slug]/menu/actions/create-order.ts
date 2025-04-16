@@ -1,5 +1,7 @@
 "use server";
 
+import { redirect } from "next/navigation";
+
 import { db } from "@/lib/prisma";
 
 import { removeCpfPontuations } from "../helpers/remove-cpf-pontuations";
@@ -60,4 +62,6 @@ export const createOrder = async (input: createOrderInput) => {
       total,
     },
   });
+
+  redirect(`/${input.slug}/orders`)
 };
