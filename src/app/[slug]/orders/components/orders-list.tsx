@@ -1,5 +1,8 @@
+"use client";
+
 import { Prisma } from "@prisma/client";
 import { ChevronLeftIcon, ScrollTextIcon } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 
@@ -26,9 +29,19 @@ interface OrdersListProps {
 }
 
 const OrdersList: React.FC<OrdersListProps> = ({ orders }) => {
+  const router = useRouter();
+  const { slug } = useParams<{ slug: string }>()
+
+  const handleBackClick = () => router.replace(`/${slug}`);
+
   return (
     <div className="space-y-6 p-6">
-      <Button size="icon" variant="secondary" className="rounded-full">
+      <Button
+        size="icon"
+        variant="secondary"
+        className="rounded-full"
+        onClick={handleBackClick}
+      >
         <ChevronLeftIcon />
       </Button>
       <div className="flex items-center gap-3">

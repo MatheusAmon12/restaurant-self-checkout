@@ -1,7 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
-
 import { db } from "@/lib/prisma";
 
 import { removeCpfPontuations } from "../helpers/remove-cpf-pontuations";
@@ -17,7 +15,14 @@ export interface createOrderInput {
   slug: string;
 }
 
-export const createOrder = async (input: createOrderInput) => {
+interface CreateOrderResponse {
+  customerCpf: string;
+  slug: string;
+}
+
+export const createOrder = async (
+  input: createOrderInput,
+): Promise<CreateOrderResponse> => {
   const restaurant = await db.restaurant.findUnique({
     where: {
       slug: input.slug,
@@ -63,5 +68,8 @@ export const createOrder = async (input: createOrderInput) => {
     },
   });
 
-  redirect(`/${input.slug}/orders`)
+  return {
+    customerCpf: removeCpfPontuations(input.customerCpf),
+    slug: input.slug,
+  };
 };

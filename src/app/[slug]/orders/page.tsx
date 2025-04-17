@@ -19,6 +19,9 @@ const OrdersPage: React.FC<OrderPageProps> = async ({ searchParams }) => {
   if (!isValidCPF(cpf)) return <CpfForm />;
 
   const orders = await db.order.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
     where: { customerCpf: removeCpfPontuations(cpf) },
     include: {
       restaurant: {
