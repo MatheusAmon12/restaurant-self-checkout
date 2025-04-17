@@ -25,6 +25,8 @@ const CartSheet = () => {
     setIsFinishOrderOpen(!isFinishOrderOpen);
   };
 
+  if (products.length === 0) return !isOpen;
+
   return (
     <Sheet open={isOpen} onOpenChange={toggleCart}>
       <SheetContent className="w-full max-w-[90%]">
