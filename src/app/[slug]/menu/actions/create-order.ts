@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import { db } from "@/lib/prisma";
 
 import { removeCpfPontuations } from "../helpers/remove-cpf-pontuations";
@@ -67,6 +69,8 @@ export const createOrder = async (
       total,
     },
   });
+
+  revalidatePath(`/${input.slug}/orders`);
 
   return {
     customerCpf: removeCpfPontuations(input.customerCpf),
