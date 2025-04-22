@@ -38,7 +38,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
 
   return (
     <>
-      <div className="relative z-50 mt-[-1.5rem] flex flex-col overflow-hidden rounded-t-3xl p-5 py-5">
+      <div className="relative z-50 mt-[-1.5rem] flex flex-auto flex-col overflow-hidden rounded-t-3xl p-5 py-5">
         <div className="flex-auto overflow-hidden">
           <div className="flex items-center gap-1.5">
             <Image
@@ -75,7 +75,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
               </Button>
             </div>
           </div>
-          <ScrollArea className="h-[70%]">
+          <ScrollArea className="h-[75%]">
             <div className="mt-6 space-y-3">
               <h4 className="font-semibold">Sobre</h4>
               <p className="text-sm text-muted-foreground">
@@ -96,7 +96,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
           </ScrollArea>
         </div>
         <Button
-          className="w-full rounded-full mt-6"
+          className="w-full rounded-full"
           onClick={handleAddProductToCartClick}
         >
           Adicionar à sacola
