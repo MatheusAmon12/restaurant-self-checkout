@@ -42,7 +42,7 @@ const CpfForm = () => {
   });
 
   const handleCpfFormSubmit = (data: CpfFormSchema) => {
-    router.push(`${pathname}?cpf=${removeCpfPontuations(data.cpf)}`);
+    router.replace(`${pathname}?cpf=${removeCpfPontuations(data.cpf)}`);
   };
 
   const handleCancelClick = () => router.back();

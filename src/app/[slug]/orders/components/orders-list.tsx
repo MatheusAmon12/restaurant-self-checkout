@@ -2,7 +2,7 @@
 
 import { Prisma } from "@prisma/client";
 import { ChevronLeftIcon, ScrollTextIcon } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 
@@ -30,9 +30,8 @@ interface OrdersListProps {
 
 const OrdersList: React.FC<OrdersListProps> = ({ orders }) => {
   const router = useRouter();
-  const { slug } = useParams<{ slug: string }>()
 
-  const handleBackClick = () => router.replace(`/${slug}`);
+  const handleBackClick = () => router.back();
 
   return (
     <div className="space-y-6 p-6">
